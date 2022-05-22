@@ -14,11 +14,13 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+
+// Ref: https://www.youtube.com/watch?v=JQRcT_m4tsA
 public class EmailRoutines {
     static final String TAG = "EmailRoutines";
 
     public static void send_email(String senderEmail,
-                                  String receiverEmail,
+                                  String[] receiverEmails,
                                   String passwordSenderEmail,
                                   String subject,
                                   String text,
@@ -38,7 +40,9 @@ public class EmailRoutines {
 
         MimeMessage mimeMessage = new MimeMessage(session);
         try {
-            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(receiverEmail));
+            for (String receiverEmail: receiverEmails) {
+                mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(receiverEmail));
+            }
             mimeMessage.setSubject(subject);
             mimeMessage.setText(text);
 
@@ -80,11 +84,11 @@ public class EmailRoutines {
         Log.i(TAG, "Got email request");
 
         String senderEmail = "neerajgupta.finance@gmail.com";
-        String receiverEmail = "neeraj76@yahoo.com";
+        String[] receiverEmails = new String[] {"neeraj76@yahoo.com", "mkhar19@gmail.com"};
 
         String passwordSenderEmail = "chpdpemnebqfeoss";
         String gmailHost = "smtp.gmail.com";
 
-        send_email(senderEmail, receiverEmail, passwordSenderEmail, subject, text, gmailHost);
+        send_email(senderEmail, receiverEmails, passwordSenderEmail, subject, text, gmailHost);
     }
 }

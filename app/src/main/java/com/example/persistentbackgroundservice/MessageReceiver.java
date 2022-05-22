@@ -8,6 +8,7 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 import static com.example.persistentbackgroundservice.EmailRoutines.send_email_using_gmail;
+import static com.example.persistentbackgroundservice.SmsFilter.isFromSender;
 
 
 public class MessageReceiver extends BroadcastReceiver {
@@ -19,14 +20,16 @@ public class MessageReceiver extends BroadcastReceiver {
         SmsMessage[] messages = Telephony.Sms.Intents.getMessagesFromIntent(intent);
         for(SmsMessage sms : messages)
         {
-            String msg = sms.getMessageBody();
-            Log.i(TAG, msg);
+            if (isFromSender(sms, "HDFC")) {
+                String msg = sms.getMessageBody();
+                Log.i(TAG, msg);
 
-            String subject = String.format("SMS Transaction [%s]", sms.getOriginatingAddress());
+                String subject = String.format("SMS Transaction [%s]", sms.getOriginatingAddress());
 
-            send_email_using_gmail(subject, msg);
+                send_email_using_gmail(subject, msg);
 
-            Log.i(TAG, "Email sent successfully.");
+                Log.i(TAG, "Email sent successfully.");
+            }
         }
     }
 }
