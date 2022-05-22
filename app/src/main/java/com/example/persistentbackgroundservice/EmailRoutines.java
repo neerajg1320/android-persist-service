@@ -2,6 +2,7 @@ package com.example.persistentbackgroundservice;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -20,7 +21,7 @@ public class EmailRoutines {
     static final String TAG = "EmailRoutines";
 
     public static void send_email(String senderEmail,
-                                  String[] receiverEmails,
+                                  ArrayList<String> receiverEmails,
                                   String passwordSenderEmail,
                                   String subject,
                                   String text,
@@ -80,11 +81,10 @@ public class EmailRoutines {
         thread.start();
     }
 
-    public static void send_email_using_gmail(String subject, String text) {
+    public static void send_email_using_gmail(String subject, String text, ArrayList<String> receiverEmails) {
         Log.i(TAG, "Got email request");
 
         String senderEmail = "neerajgupta.finance@gmail.com";
-        String[] receiverEmails = new String[] {"neeraj76@yahoo.com", "mkhar19@gmail.com"};
 
         String passwordSenderEmail = "chpdpemnebqfeoss";
         String gmailHost = "smtp.gmail.com";

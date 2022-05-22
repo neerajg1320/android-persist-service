@@ -15,6 +15,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import static com.example.persistentbackgroundservice.EmailRoutines.send_email_using_gmail;
+import static com.example.persistentbackgroundservice.SmsFilter.isFromSender;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,8 +43,11 @@ public class MainActivity extends AppCompatActivity {
     public void onClickSendEmail(View view) {
         String subject = "SMS Transaction";
         String text = "SMS Trasnsactions done";
+        ArrayList<String> receiverEmails = new ArrayList<>();
+        receiverEmails.add("neeraj76@yahoo.com");
 
-        send_email_using_gmail(subject, text);
+        send_email_using_gmail(subject, text, receiverEmails);
+
         Log.i(TAG, String.format("Email sent: [%s]", subject));
     }
 

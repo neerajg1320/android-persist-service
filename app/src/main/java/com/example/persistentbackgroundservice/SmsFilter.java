@@ -7,4 +7,9 @@ public class SmsFilter {
         String sender = sms.getOriginatingAddress();
         return sender.indexOf(match) != -1 ? true: false;
     }
+
+    public static boolean isBodyContains(SmsMessage sms, String match) {
+        String body = sms.getMessageBody();
+        return body.indexOf(match) != -1 ? true: false;
+    }
 }
