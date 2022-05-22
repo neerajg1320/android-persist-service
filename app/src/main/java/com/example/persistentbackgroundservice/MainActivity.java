@@ -6,29 +6,45 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import static com.example.persistentbackgroundservice.EmailRoutines.send_email_using_gmail;
+
+
 public class MainActivity extends AppCompatActivity {
+    String TAG = "MainActivity";
+
     Intent mServiceIntent;
-    private PersistService mYourService;
+    private PersistService mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mYourService = new PersistService();
-        mServiceIntent = new Intent(this, mYourService.getClass());
-        if (!isMyServiceRunning(mYourService.getClass())) {
+        mService = new PersistService();
+        mServiceIntent = new Intent(this, mService.getClass());
+        if (!isMyServiceRunning(mService.getClass())) {
             startService(mServiceIntent);
         }
 
         requestSmsPermission();
     }
+
+    public void onClickSendEmail(View view) {
+        String subject = "SMS Transaction";
+        String text = "SMS Trasnsactions done";
+
+        send_email_using_gmail(subject, text);
+        Log.i(TAG, String.format("Email sent: [%s]", subject));
+    }
+
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
